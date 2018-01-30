@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link rel="manifest" href="manifest.json">
+
+    <!-- un-comment this code to enable service worker
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(() => console.log('service worker installed'))
+          .catch(err => console.log('Error', err));
+      }
+    </script>-->
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/angular-resource/angular-resource.js"></script>
+    <script src="lib/moment/moment.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/services.js"></script>
+  </head>
+  <body ng-app="starter" ng-controller="homeController">
+
+    <ion-pane>
+      <ion-header-bar class="bar-stable">
+        <h1 class="title">Matches</h1>
+      </ion-header-bar>
+      <ion-content>
+        <div class="row">
+          <div class="col col-20"><button class="button button-positive" ng-click="goPreviousDay()">&lt;</button></div>
+          <div class="col col-60"><h4>{{ formatCurrentDate() }}</h4><input ng-change="goToDay(this)" type="date" ng-model="setDay"/></div>
+          <div class="col col-20" ng-click="goNextDay()">
+            <button class="button button-positive" >&gt;</button>
+          </div>
+        </div>
+
+        <div ng-if="!loading">
+          <div ng-if="message">
+            <h3>{{ message }}</h3>
+          </div>
+          <div class="card" ng-repeat="game in games">
+            <div class="item item-text-wrap">
+              <div class="row" ng-class="{winner: game.winner === 'winner_home'}">
+                <div class="col">
+                  {{ game.home_team_name }}
+                </div>
+                <div class="col">
+                  {{ game.home_score}}
+                </div>
+              </div>
+              <div class="row" ng-class="{winner: game.winner === 'winner_away'}">
+                <div class="col">
+                  {{ game.away_team_name }}  
+                </div>
+                <div class="col">
+                  {{ game.away_score}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  {{ game.status }}    
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div ng-if="loading">
+          <div class="loader" ></div>
+        </div>
+
+      </ion-content>
+    </ion-pane>
+  </body>
+</html>
